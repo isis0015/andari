@@ -2,6 +2,8 @@ package com.example.andari.data
 
 import com.example.andari.domain.Repository
 import com.example.andari.model.CartItem
+import com.example.andari.model.DatosPedido
+import com.example.andari.model.Pedido
 import com.example.andari.model.Favorito
 import com.example.andari.model.Producto
 
@@ -30,6 +32,8 @@ class RepoImpl(private val manager: Manager) : Repository {
     }
 
     override fun totalCarrito(): Double = manager.totalCarrito()
+
+    override fun confirmarPedido(datos: DatosPedido): Pedido = manager.confirmarPedido(datos)
 
     // Favoritos
     override fun obtenerFavoritos(): List<Favorito> = manager.obtenerFavoritos()

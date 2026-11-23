@@ -4,6 +4,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.andari.model.Catalogo
 import com.example.andari.ui.screens.ArticuloScreen
+import com.example.andari.ui.screens.CompraRealizadaScreen
+import com.example.andari.ui.screens.PedidoScreen
+import com.example.andari.model.CartItem
 import com.example.andari.ui.screens.CrearCuentaScreen
 import com.example.andari.ui.screens.InicioScreen
 import com.example.andari.ui.screens.LoginScreen
@@ -200,3 +203,16 @@ fun ArticuloNinoTonosCafePreview() {
         onCarrito = {}
     )
 }
+
+@Preview(showSystemUi = true)
+@Composable
+fun PedidoPreview() {
+    PedidoScreen(
+        items = listOf(CartItem("forro", "Huarache forro colores", 25, 450.0, 2)),
+        total = 900.0
+    )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun CompraRealizadaPreview() { CompraRealizadaScreen(pedido = null) }
