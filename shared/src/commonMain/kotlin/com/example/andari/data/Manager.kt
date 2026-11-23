@@ -2,6 +2,8 @@ package com.example.andari.data
 
 
 import com.example.andari.model.CartItem
+import com.example.andari.model.DatosPedido
+import com.example.andari.model.Pedido
 import com.example.andari.model.Catalogo
 import com.example.andari.model.Favorito
 import com.example.andari.model.Producto
@@ -10,6 +12,7 @@ import com.example.andari.model.Producto
 object Manager {
     private val carrito = mutableListOf<CartItem>()
     private val favoritos = mutableListOf<Favorito>()
+    private val pedidos = mutableListOf<Pedido>()
 
 
     fun buscarProducto(id: String): Producto = Catalogo.buscar(id)
@@ -56,6 +59,19 @@ object Manager {
     }
 
     fun totalCarrito(): Double = carrito.sumOf { it.subtotal }
+
+    // Genera el pedido con lo que hay en el carrito y vacía el carrito
+    fun confirmarPedido(datos: DatosPedido): Pedido {
+        val pedido = Pedido(
+            numero = "AND-" + (1001 + pedidos.size),
+            datos = datos,
+            items = carrito.toList(),
+            total = totalCarrito()
+        )
+        pedidos.add(pedido)
+        carrito.clear()
+        return pedido
+    }
 
     private fun indiceEnCarrito(item: CartItem): Int =
         carrito.indexOfFirst { it.id == item.id && it.talla == item.talla }

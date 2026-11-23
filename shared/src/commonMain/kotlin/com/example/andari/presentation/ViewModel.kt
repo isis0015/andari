@@ -2,6 +2,8 @@ package com.example.andari.presentation
 
 import com.example.andari.domain.Repository
 import com.example.andari.model.CartItem
+import com.example.andari.model.DatosPedido
+import com.example.andari.model.Pedido
 import com.example.andari.model.Favorito
 import com.example.andari.model.Producto
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,7 +17,8 @@ class ViewModel(private val repo: Repository) : PreComposeViewModel() {
     data class UIState(
         val carrito: List<CartItem> = emptyList(),
         val totalCarrito: Double = 0.0,
-        val favoritos: List<Favorito> = emptyList()
+        val favoritos: List<Favorito> = emptyList(),
+        val ultimoPedido: Pedido? = null
     )
 
     private val _uiState = MutableStateFlow(UIState())
@@ -58,6 +61,13 @@ class ViewModel(private val repo: Repository) : PreComposeViewModel() {
     fun quitarDelCarrito(item: CartItem) {
         repo.quitarDelCarrito(item)
         actualizarEstado()
+    }
+
+
+    fun confirmarPedido(datos: DatosPedido) {
+        val pedido = repo.confirmarPedido(datos)
+        actualizarEstado()
+        _uiState.update { it.copy(ultimoPedido = pedido) }
     }
 
 

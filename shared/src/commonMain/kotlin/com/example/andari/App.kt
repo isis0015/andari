@@ -7,6 +7,8 @@ import com.example.andari.data.RepoImpl
 import com.example.andari.presentation.ViewModel
 import com.example.andari.ui.screens.ArticuloScreen
 import com.example.andari.ui.screens.CarritoScreen
+import com.example.andari.ui.screens.CompraRealizadaScreen
+import com.example.andari.ui.screens.PedidoScreen
 import com.example.andari.ui.screens.CrearCuentaScreen
 import com.example.andari.ui.screens.FavoritosScreen
 import com.example.andari.ui.screens.InicioScreen
@@ -117,7 +119,24 @@ fun App() {
                     onIncreaseQuantity = { item -> viewModel.aumentarCantidad(item) },
                     onDecreaseQuantity = { item -> viewModel.disminuirCantidad(item) },
                     onRemoveItem = { item -> viewModel.quitarDelCarrito(item) },
-                    onCheckoutClick = { /* pendiente: pantalla de pago */ }
+                    onCheckoutClick = { navigator.navigate("/pedido") }
+                )
+            }
+            scene("/pedido") {
+                PedidoScreen(
+                    items = uiState.carrito,
+                    total = uiState.totalCarrito,
+                    onBackClick = { navigator.goBack() },
+                    onAceptar = { datos ->
+                        viewModel.confirmarPedido(datos)
+                        navigator.navigate("/compra_realizada")
+                    }
+                )
+            }
+            scene("/compra_realizada") {
+                CompraRealizadaScreen(
+                    pedido = uiState.ultimoPedido,
+                    onSeguirComprando = { navigator.navigate("/menu_dama") }
                 )
             }
             scene("/favoritos") {
